@@ -1,0 +1,1 @@
+python3 face_detection.py --batch_size 4 --width 600 --height 400 --output_dir results --grpc_address $SERVER_NAME --grpc_port $GRPC_PORT

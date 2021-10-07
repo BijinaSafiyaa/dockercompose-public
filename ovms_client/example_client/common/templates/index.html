@@ -1,0 +1,58 @@
+<!doctype html>
+<title>OpenVino Inference Results</title>
+<script type="text/javascript"
+  src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script type="text/javascript">
+  var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+</script>
+{% block body %}
+<script type="text/javascript">
+var intervalID = setInterval(update_values,1000);
+
+  function update_values() {
+        $.getJSON($SCRIPT_ROOT + '/update',
+               
+      function(data) {
+        var tableData = '<table>  <tr>  <th>Parameter</th>    <th>Value</th>'
+            $.each(data.result, function (key, value) {
+                tableData += '<tr>';
+                tableData += '<td>' + key + ' ' + '</td>';
+                    tableData += '<td>' + value + '</td>';
+                tableData += '<tr>';
+            });
+            tableData += '</table>';
+            $('#table').html(tableData);
+        });
+      
+    };
+    
+</script>
+<head>
+    <style>
+        table {
+          font-family: arial, sans-serif;
+          border-collapse: collapse;
+          width: 20%;
+        }
+        
+        td, th {
+          border: 1px solid #dddddd;
+          text-align: left;
+          padding: 8px;
+        }
+        
+        tr:nth-child(even) {
+          background-color: #dddddd;
+        }
+        </style>
+</head>
+<body onload="update_values();">
+<h1>OpenVino Inference Results</h1>
+<img src="{{ url_for('video_feed') }}">
+<p></p>
+    <table id="table"></table>
+<script>
+document.getElementById("table").innerHTML;
+</script>
+	</body>
+{% endblock %}
